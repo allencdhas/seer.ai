@@ -44,13 +44,16 @@ export default function NFTCards({ onNFTClick }: NFTCardProps) {
         <div 
           key={`${nft.contractAddress}-${nft.tokenId}`}
           onClick={() => onNFTClick(nft)}
-          className="cursor-pointer hover:opacity-80 transition-opacity"
+          className="cursor-pointer hover:opacity-80 transition-opacity relative group"
         >
-          <NFTCardDefault
-            contractAddress={nft.contractAddress}
-            tokenId={nft.tokenId}
-            useNFTData={() => useNFTData(nft)}
-          />
+          <div className="relative">
+            <NFTCardDefault
+              contractAddress={nft.contractAddress}
+              tokenId={nft.tokenId}
+              useNFTData={() => useNFTData(nft)}
+            />
+            <div className="absolute inset-0 border-r-4 border-b-4 rounded-lg border-slate-500 translate-x-2 translate-y-2 -z-10 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform" />
+          </div>
         </div>
       ))}
     </div>

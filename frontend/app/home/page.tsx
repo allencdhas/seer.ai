@@ -32,22 +32,16 @@ export default function Home() {
     const [selectedNFT, setSelectedNFT] = useState<NFTData | null>(null);
 
     return (
-        <div>
+        <div className="min-h-screen flex flex-col">
             <Header />
-            <div className="flex">
+            <div className="flex flex-1">
                 {/* Left side - NFT collection */}
-                <div className="w-1/2 p-4">
+                <div className="w-1/2 p-4 overflow-y-auto">
                     <NFTCards onNFTClick={setSelectedNFT} />
                 </div>
                 
-                {/* Right side - Swap widget */}
-                <div className="w-1/2 p-4">
-                    {selectedNFT && (
-                        <SwapDefault
-                            from={[eth]} // USDC
-                            to={[usdc]}   // WETH
-                        />
-                    )}
+                <div className="border-l-2 border-t-2 border-r-4 border-b-4 border-slate-500 rounded-lg p-4 w-1/2 m-4 overflow-y-auto relative">
+                    
                 </div>
             </div>
         </div>
