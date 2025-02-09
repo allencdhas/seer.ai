@@ -5,10 +5,11 @@ import NFTCards from "@/components/nftCard";
 import { useState } from "react";
 import { Swap, SwapDefault } from "@coinbase/onchainkit/swap";
 import { NFTData } from "@/components/nftCard";
-
+import ElizaChat from "@/components/ElizaChat";
 import type { Token } from '@coinbase/onchainkit/token';
 import OpenSeaSearch from "@/components/openseaAPIsearch";
- 
+import { NextResponse } from 'next/server';
+
 const eth: Token = {
   name: 'ETH',
   address: '',
@@ -42,7 +43,7 @@ export default function Home() {
                 </div>
                 
                 <div className="border-l-2 border-t-2 border-r-4 border-b-4 border-slate-500 rounded-lg p-4 w-1/2 m-4 overflow-y-auto relative max-h-[calc(100vh-8rem)]">
-                    
+                    <ElizaChat />
                 </div>
             </div>
         </div>
