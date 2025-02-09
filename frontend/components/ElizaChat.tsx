@@ -18,40 +18,29 @@ export default function ElizaChat() {
         setMessages(newMessages);
 
         try {
-            console.log('Sending request to Eliza...', inputText);
-            
-            const response = await fetch('/api/eliza', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message: inputText }),
-            });
-
-            console.log('Response status:', response.status);
-            const responseText = await response.text();
-            console.log('Response text:', responseText);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}, body: ${responseText}`);
-            }
-
-            const data = JSON.parse(responseText);
-            
-            // Add Eliza's response
-            setMessages(prev => [...prev, { text: data.response, isUser: false }]);
+            const response = await fetch(
+                `http://localhost:4000/seerai/message`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        text: inputText,
+                        userId: "user",
+                        userName: "User",
+                    }),
+                }
+            );
+            const data = await response.json();
+            // Add each message from the response to the messages state
+            const newMessages = data.map((message: { text: string }) => ({
+                text: message.text,
+                isUser: false
+            }));
+            setMessages(prev => [...prev, ...newMessages]);
         } catch (error) {
-            console.error('Detailed error:', {
-                error,
-                message: error instanceof Error ? error.message : 'Unknown error'
-            });
-            setMessages(prev => [...prev, { 
-                text: "Sorry, I'm having trouble connecting right now. Please try again.", 
-                isUser: false 
-            }]);
+            console.error('Error:', error);
         } finally {
             setIsLoading(false);
-            setInputText('');
         }
     };
 
