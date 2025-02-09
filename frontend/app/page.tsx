@@ -11,11 +11,11 @@ export default function Home() {
       </div>
       <div className="flex-1 flex justify-center items-center">
         <div className="flex justify-center items-center flex-col">
-          <p className="text-4xl font-bold pb-5 text-black">
+          <p className="text-4xl font-bold pb-5 text-slate-300">
             seer.AI
           </p>
           <div className="flex justify-center items-center flex-col border-4 border-neutral-500 rounded-lg p-5">
-            <h1 className="text-2xl font-bold pb-5 text-orange-100 text-center">Connect your wallet</h1>
+            <h1 className="text-2xl font-bold pb-5 text-slate-500 text-center">Connect your wallet</h1>
             <WalletComponents />
           </div>
         </div>

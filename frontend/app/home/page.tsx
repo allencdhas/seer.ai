@@ -7,6 +7,7 @@ import { Swap, SwapDefault } from "@coinbase/onchainkit/swap";
 import { NFTData } from "@/components/nftCard";
 
 import type { Token } from '@coinbase/onchainkit/token';
+import OpenSeaSearch from "@/components/openseaAPIsearch";
  
 const eth: Token = {
   name: 'ETH',
@@ -37,10 +38,10 @@ export default function Home() {
             <div className="flex flex-1">
                 {/* Left side - NFT collection */}
                 <div className="w-1/2 p-4 overflow-y-auto">
-                    <NFTCards onNFTClick={setSelectedNFT} />
+                    <OpenSeaSearch />
                 </div>
                 
-                <div className="border-l-2 border-t-2 border-r-4 border-b-4 border-slate-500 rounded-lg p-4 w-1/2 m-4 overflow-y-auto relative">
+                <div className="border-l-2 border-t-2 border-r-4 border-b-4 border-slate-500 rounded-lg p-4 w-1/2 m-4 overflow-y-auto relative max-h-[calc(100vh-8rem)]">
                     
                 </div>
             </div>

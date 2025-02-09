@@ -10,9 +10,9 @@ export const Header = () => {
       <nav>
         <section className='flex w-full flex-col md:flex-row'>
           <div className='flex w-full flex-row items-center justify-between gap-2 md:gap-0'>
-            <p className="text-4xl font-bold text-slate-300">
+            <Link className="text-4xl font-bold text-slate-300" href="/">
               seer.AI
-            </p>
+            </Link>
             <div className="flex items-center gap-3">
               <Link className="text-slate-500 font-bold" href="/home">/home</Link>
               <Link className="text-slate-500 font-bold" href="/chat">/chat</Link>
