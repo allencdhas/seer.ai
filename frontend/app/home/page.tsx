@@ -1,8 +1,14 @@
 'use client';
 
+
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import axios from 'axios'
+import ReactDOM from 'react-dom/client'
+
+
 import { Header } from "@/components/Header";
 import NFTCards from "@/components/nftCard";
-import { useState } from "react";
+
 import { Swap, SwapDefault } from "@coinbase/onchainkit/swap";
 import { NFTData } from "@/components/nftCard";
 import ElizaChat from "@/components/ElizaChat";
@@ -31,7 +37,10 @@ const usdc: Token = {
 };
 
 export default function Home() {
-    const [selectedNFT, setSelectedNFT] = useState<NFTData | null>(null);
+  const [inputText, setInputText] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+
 
     return (
         <div className="min-h-screen flex flex-col">

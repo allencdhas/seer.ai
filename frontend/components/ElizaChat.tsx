@@ -2,56 +2,49 @@
 
 import { useState } from 'react';
 
+interface Message {
+    text: string;
+    isUser: boolean;
+}
+
 export default function ElizaChat() {
-    const [messages, setMessages] = useState<Array<{ text: string; isUser: boolean }>>([]);
+    const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const agentId = 'seerai'; // or whatever your agent ID is
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!inputText.trim() || isLoading) return;
+        if (!inputText.trim()) return;
 
         setIsLoading(true);
-        
-        // Add user message immediately
-        const newMessages = [...messages, { text: inputText, isUser: true }];
-        setMessages(newMessages);
+        setMessages(prev => [...prev, { text: inputText, isUser: true }]);
 
         try {
-            console.log('Sending request to Eliza...', inputText);
-            
-            const response = await fetch('/api/eliza', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message: inputText }),
-            });
-
-            console.log('Response status:', response.status);
-            const responseText = await response.text();
-            console.log('Response text:', responseText);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}, body: ${responseText}`);
-            }
-
-            const data = JSON.parse(responseText);
-            
-            // Add Eliza's response
-            setMessages(prev => [...prev, { text: data.response, isUser: false }]);
-        } catch (error) {
-            console.error('Detailed error:', {
-                error,
-                message: error instanceof Error ? error.message : 'Unknown error'
-            });
-            setMessages(prev => [...prev, { 
-                text: "Sorry, I'm having trouble connecting right now. Please try again.", 
-                isUser: false 
-            }]);
+            const response = await fetch(
+                `http://localhost:4000/${agentId}/message`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        text: inputText,
+                        userId: "user",
+                        userName: "User",
+                    }),
+                }
+            );
+            const data = await response.json();
+            // Add each message from the response to the messages state
+            const newMessages = data.map((message: { text: string }) => ({
+                text: message.text,
+                isUser: false
+            }));
+            setMessages(prev => [...prev, ...newMessages]);
+        } catch (err) {
+            console.error('Error:', err);
         } finally {
-            setIsLoading(false);
             setInputText('');
+            setIsLoading(false);
         }
     };
 
@@ -64,7 +57,7 @@ export default function ElizaChat() {
                         className={`mb-2 p-2 rounded-lg ${
                             message.isUser
                                 ? 'bg-blue-100 ml-auto max-w-[80%]'
-                                : 'bg-gray-100 mr-auto max-w-[80%]'
+                                : 'bg-gray-100 mr-auto max-w-[80%] max-h-[200px] overflow-y-auto'
                         }`}
                     >
                         {message.text}
